@@ -1,0 +1,5 @@
+logs
+vendor
+config.ini.php
+composer.lock
+ajax-server.php

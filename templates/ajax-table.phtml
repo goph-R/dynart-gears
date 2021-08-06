@@ -1,0 +1,70 @@
+<?php use_layout(':app/layout') ?>
+<?php start_block('content') ?>
+<div class="page-header">
+  <h3 class="page-title">Ajax Table Test</h3>
+</div>
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <!--<h4 class="card-title">Card title</h4>-->
+
+        <form class="forms-sample">
+          <div class="form-group" id="text_search">
+            <!--<label for="exampleInputUsername1">Search</label>-->
+            <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Search...">
+          </div>
+        </form>
+
+        <div id="ajax_table">
+          <nav><ul class="pagination ajax-table-pager"></ul></nav>                      
+          <table class="table table-striped">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<?php end_block() ?>
+<?php use_script('jquery.ajax-table.js'); ?>
+<?php append_block('scripts') ?>
+<script>
+$(function() {
+
+    let options = GearsApp.getOptions('ajax-table');
+    options.locale = '<?= \Dynart\Minicore\Framework::instance()->get('translation')->getLocale() ?>';
+
+    // ajax table
+    const table = $('#ajax_table').ajaxTable('ajax-server.php', options);
+    table.createPagerLink = function(page, options) {
+        const listItem = $('<li>');
+        listItem.addClass(['page-item', page == options.page ? 'active' : '']);
+        const link = $('<a>');
+        link.addClass('page-link');
+        link.text(page + 1);
+        listItem.append(link);
+        return listItem;
+    }
+
+    // text search
+    const input = $('#text_search input');
+    input.val(options.text);
+
+    let keyUpTimeout = null;
+    input.keyup(function() {
+        if (keyUpTimeout) {
+            clearTimeout(keyUpTimeout);
+        }
+        keyUpTimeout = setTimeout(function() {
+            options.page = 0;
+            options.text = input.val();
+            //GearsApp.setOptions('ajax-table', options)
+            table.refresh();
+        }, 300);
+    });
+});
+</script>
+<?php end_block() ?>
