@@ -171,7 +171,7 @@
           <span class="nav-link">Dashboard</span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)" data-url="<?= route_url('', ['ajax' => 1]) ?>">
+          <a class="nav-link" href="javascript:void(0)" data-page="dashboard">
             <span class="menu-title">Dashboard</span>
             <i class="icon-screen-desktop menu-icon"></i>
           </a>
@@ -190,7 +190,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)" data-url="<?= route_url('ajax-table', ['ajax' => 1]) ?>">
+          <a class="nav-link" href="javascript:void(0)" data-page="ajax-table">
             <span class="menu-title">Ajax Table</span>
             <i class="icon-globe menu-icon"></i>
           </a>
@@ -257,37 +257,63 @@
 
 const GearsApp = new function() {
     
-    const optionsStore = {};
+    let that = this;
+
+    const pageStore = {
+        // TODO: load from DB
+        'dashboard': {
+            url: '<?= route_url('', ['ajax' => 1], '&') ?>',
+            options: {}
+        },
+        'ajax-table': {            
+            url: '<?= route_url('ajax-table', ['ajax' => 1], '&') ?>',
+            options: {}
+        }
+    };
 
     this.hasOptions = function(name) {
-        return optionsStore[name] !== undefined;
+        return pageStore[name] !== undefined;
     }
 
     this.getOptions = function(name) {
-        if (!this.hasOptions(name)) {
-            // TODO: load from DB
-            this.setOptions(name, {});
-        }
-        return optionsStore[name];
+        return pageStore[name].options;
     }
 
     this.setOptions = function(name, options) {
-        optionsStore[name] = options;
+        pageStore[name].options = options;
         // TODO: save to DB
     }
-};
 
-// app navigation
-$(function() {
-    $('.nav-link[data-url]').each(function(i, e) {
-        $(e).click(function () {
-            $.get($(e).attr('data-url'), function(content) {
-                $('#content').html(content);
+    this.loadPage = function(name) {
+        $.get(pageStore[name].url, function(content) {
+            $('#content').html(content);
+        });
+    }
+    /*
+    this.post = function(url, data, resultContainer) {
+        $.post(url, data, function(content) {
+            $(resultContainer).html(content);
+        });
+    }
+    */
+    this.init = function() {
+        // app navigation
+        $('.nav-link[data-page]').each(function(i, e) {
+            $(e).click(function () {
+                that.loadPage(
+                    $(e).attr('data-page')
+                );
             });
         });
-    });
+    }
+
+};
+
+$(function() {
+    GearsApp.init();
 });
 
+/*
 // locale switcher
 $(function() {  
 
@@ -306,6 +332,7 @@ $(function() {
     }
 
 });
+*/
 </script>
 
 </body>

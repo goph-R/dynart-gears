@@ -8,18 +8,20 @@ class GearsApp extends App {
 
     public function __construct($env, $configPath) {
         parent::__construct($env, $configPath);
-        $ns = 'Dynart\Gears\\';
         $this->framework->add([
-            'dashboardController' => $ns.'Controllers\DashboardController',
-            'ajaxTableController' => $ns.'Controllers\AjaxTableController',
-        ]);
+            'dashboard' => 'Controllers\Dashboard',
+            'ajaxTable' => 'Controllers\AjaxTable',
+        ],
+            '\Dynart\Gears'
+        );
     }
 
     public function init() {
         parent::init();
         $this->router->add([
-            ['', 'dashboardController', 'index'],
-            ['ajax-table', 'ajaxTableController', 'index']
+            ['', 'dashboard', 'index'],
+            ['ajax-table', 'ajaxTable', 'index'],
+            ['ajax-table/process-form', 'ajaxTable', 'processForm', ['POST']],
         ]);
         $this->view->addFolder(':app', 'templates/');
     }

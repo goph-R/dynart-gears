@@ -4,7 +4,7 @@ namespace Dynart\Gears\Controllers;
 
 use Dynart\Minicore\Controller;
 
-class DashboardController extends Controller {
+class Dashboard extends Controller {
 
     public function index() {
         if ($this->request->has('ajax')) {
