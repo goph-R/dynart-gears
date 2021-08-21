@@ -9,25 +9,21 @@ class AjaxTable extends Controller {
 
     public function index() {
         $this->renderContent(':app/ajax', [
-            'form' => $this->createForm()
+            'form' => $this->createForm(),            
         ]);
     }
 
     public function processForm() {
-
         $form = $this->createForm();
         $values = [];
-        $errors = [];
         $status = 'error';
-
-        if ($form->processInput()) {
+        if ($form->process()) {
             $values = $form->getValues();
             
             // ..
             $status = 'ok';
-        } else {
-            $errors = $form->getInputErrors();
         }
+        $errors = $form->getInputErrors();
         $this->json([
             'status'     => $status,
             'formErrors' => $form->getErrors(),
@@ -36,46 +32,53 @@ class AjaxTable extends Controller {
 
     }
 
+    private function createTableView() {
+        // Db
+        // convert
+        return '';
+    }
+
     private function createForm() {
-        
+
         $form = new Form('test');
 
-        $form->addInput('Email', ['name1', 'Text', 'Value']);
+        $form->addInput('name1', 'Email label', ['Text', '']);
         $form->addValidator('name1', 'Email');
         
-        $form->addInput('', [
-            'name2', 'Checkbox', 'Value', 'Label for checkbox', true // is checked?
+        $form->addInput('nev', 'Uj mezo', ['Text', 'Erteke']);
+        $form->addValidator('nev', 'Email');
+        
+        $form->addInput('name2', '', [
+            'Checkbox', 'Value', 'Label for checkbox', true // is checked?
         ]);
         
-        $form->addInput('Checkbox group', [
-            'name3', 'CheckboxGroup', [
+        $form->addInput('name3', 'Checkbox group label', [
+            'CheckboxGroup', ['b', 'c'], [
                 'a' => 'Option A.',
-                'b' => 'Option B.'
-            ],            
-            ['b']
-        ]);
+                'b' => 'Option B.',
+                'c' => 'Option C.',
+            ]
+        ]);        
         
-        $file = $form->addInput('File', [
-            'name4', 'File'
-        ]);
+        $file = $form->addInput('name4', 'File label', ['File']);
         $file->setRequired(false);
 
-        $form->addInput(null, ['name5', 'Hidden', 'Some hidden value.']);
+        $form->addInput('name5', null, ['Hidden', 'Some hidden value.']);
 
-        $form->addInput('Password', ['name6', 'Password', 'Your password']);
+        $form->addInput('name6', 'Password label', ['Password', 'Your password']);
         $form->addValidator('name6', 'Password');
 
-        $form->addInput('Select', [
-            'name6b', 'Select', 0, [
+        $form->addInput('name6b', 'Select label', [
+            'Select', 0, [
                 '-- Choose! --',
                 'Selectable 1',
                 'Selectable 2'
             ]
         ]);
         
-        $form->addInput('', ['name7', 'Separator', 'Some HTML']);        
-        $form->addInput('', ['name8', 'Submit', 'Save']);        
-        $form->addInput('', ['name9', 'Textarea', "Some multiline\nText"]);
+        $form->addInput('name9', 'Textarea', ['Textarea', "Some multiline\nText"]);
+        $form->addInput('name7', '', ['Separator', 'Some HTML']);        
+        $form->addInput('name8', '', ['Submit', 'Save']);        
         
         return $form;
     }

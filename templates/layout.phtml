@@ -1,257 +1,284 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Dynart Gears</title>
-<?= css('stellar/vendors/simple-line-icons/css/simple-line-icons.css') ?>
-<?= css('stellar/vendors/flag-icon-css/css/flag-icon.min.css') ?>
-<?= css('stellar/vendors/css/vendor.bundle.base.css') ?>
-<?= css('stellar/css/style.css') ?>
-<?= fetch_styles() ?>
-<link rel="shortcut icon" href="<?= static_url('stellar/images/favicon.png') ?>">
-<style>
-.table {
-  table-layout: fixed;
-}
-.table thead th {
-  font-weight: bold;
-}
-.table td {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.breadcrumb {
-  padding: 0;
-  margin: 0;
-}
-.navbar .navbar-brand-wrapper .navbar-brand img {
-  height: auto;
-}
-.content-wrapper {
-  padding: 1.5rem 1.5rem 0;
-}
-</style>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tables - Admin One HTML - Bulma Admin Dashboard</title>
+
+  <!-- Bulma is included -->
+  <link rel="stylesheet" href="static/admin-one/css/main.min.css">
+  <link rel="stylesheet" href="static/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="static/jquery-ui.min.css">
+
+  <!-- Fonts -->
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet" type="text/css">
+  <?= fetch_styles() ?>
+  <style>
+    .title {
+      font-size: 1.5rem;
+    }
+    .control .checkbox-group-row label {
+      padding: 0 1.5rem 0.5rem 0.3rem;
+    }
+    .aside-tools {
+      background: url(static/images/dynart-gears-logo.svg) no-repeat center left;
+      background-size: contain;
+      /*width: 152px*/
+    }
+    aside.aside.is-expanded {
+      width: 19rem;
+    }
+    @media screen and (min-width: 1024px) {
+      html.has-aside-left.has-aside-expanded nav.navbar, html.has-aside-left.has-aside-expanded body {
+        padding-left: 19rem;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<div class="container-scroller">
-  <!-- navbar -->
-  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    
-    <!-- logo -->        
-    <div class="navbar-brand-wrapper d-flex align-items-center">
-      <a class="navbar-brand brand-logo" href="<?= route_url('') ?>">
-        <img src="static/stellar/images/logo.svg" alt="logo" class="logo-dark" />
+<div id="app">
+  <nav id="navbar-main" class="navbar is-fixed-top">
+    <div class="navbar-brand">
+      <a class="navbar-item is-hidden-desktop jb-aside-mobile-toggle">
+        <span class="icon"><i class="fas fa-bars"></i></span>
       </a>
-      <a class="navbar-brand brand-logo-mini" href="static/stellar/index.html"><img src="static/stellar/images/logo-mini.svg" alt="logo" /></a>
+      <!--
+        <div class="navbar-item has-control">
+          <div class="control"><input placeholder="Search everywhere..." class="input"></div>
+        </div>
+      -->
     </div>
-
-    <!-- menu -->
-    <div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
-      <!--<h5 class="mb-0 font-weight-medium d-none d-lg-flex">Welcome stallar dashboard!</h5>-->
-      <nav aria-label="breadcrumb" class="d-md-block">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Tables</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Basic tables</li>
-        </ol>
-      </nav>
-
-      <ul class="navbar-nav navbar-nav-right ml-auto">
-        <!--
-        <form class="search-form d-none d-md-block" action="#">
-          <i class="icon-magnifier"></i>
-          <input type="search" class="form-control" placeholder="Search Here" title="Search here">
-        </form>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="icon-basket-loaded"></i></a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="icon-chart"></i></a></li>
-        -->
-        <li class="nav-item dropdown">
-          <a class="nav-link count-indicator message-dropdown" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-            <i class="icon-speech"></i>
-            <!--<span class="count">7</span>-->
+    <div class="navbar-brand is-right">
+      <a class="navbar-item is-hidden-desktop jb-navbar-menu-toggle" data-target="navbar-menu">
+        <span class="icon"><i class="fas fa-ellipsis-v"></i></span>
+      </a>
+    </div>
+    <div class="navbar-menu fadeIn animated faster" id="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider is-hoverable">
+          <a class="navbar-link is-arrowless">
+            <span class="icon">
+              <i class="fas fa-bars"></i>
+            </span>
+            <span>Sample Menu</span>
+            <span class="icon">
+              <i class="fas fa-chevron-down"></i>
+            </span>
           </a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
-            <a class="dropdown-item py-3">
-              <p class="mb-0 font-weight-medium float-left">You have 7 unread mails </p>
-              <span class="badge badge-pill badge-primary float-right">View all</span>
+          <div class="navbar-dropdown">
+            <a href="profile.html" class="navbar-item">
+              <span class="icon"><i class="fas fa-user"></i></span>
+              <span>My Profile</span>
             </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <img src="static/stellar/images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
-              </div>
-              <div class="preview-item-content flex-grow py-2">
-                <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
-                <p class="font-weight-light small-text"> The meeting is cancelled </p>
-              </div>
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-cog"></i></span>
+              <span>Settings</span>
             </a>
-            <a class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <img src="static/stellar/images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
-              </div>
-              <div class="preview-item-content flex-grow py-2">
-                <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey </p>
-                <p class="font-weight-light small-text"> The meeting is cancelled </p>
-              </div>
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-envelope"></i></span>
+              <span>Messages</span>
             </a>
-            <a class="dropdown-item preview-item">
-              <div class="preview-thumbnail">
-                <img src="static/stellar/images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
-              </div>
-              <div class="preview-item-content flex-grow py-2">
-                <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins </p>
-                <p class="font-weight-light small-text"> The meeting is cancelled </p>
-              </div>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+              <span>Log Out</span>
             </a>
           </div>
-        </li>
-        <li class="nav-item dropdown language-dropdown d-none d-sm-flex align-items-center">
-          <a class="nav-link d-flex align-items-center dropdown-toggle" id="LanguageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-            <div class="d-inline-flex mr-3">
-              <i class="flag-icon flag-icon-hu"></i>
+        </div>
+        <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider has-user-avatar is-hoverable">
+          <a class="navbar-link is-arrowless">
+            <div class="is-user-avatar">
+              <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" alt="Rebecca Bauch">
             </div>
-            <span class="profile-text font-weight-normal">Magyar</span>
+            <div class="is-user-name"><span>Rebecca Bauch</span></div>
+            <span class="icon"><i class="fas fa-chevron-down"></i></span>
           </a>
-          <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
-            <a class="dropdown-item" id="locale_en">
-              <i class="flag-icon flag-icon-us"></i> English</a>
-            <a class="dropdown-item" id="locale_hu">
-              <i class="flag-icon flag-icon-hu"></i> Magyar</a>
+          <div class="navbar-dropdown">
+            <a href="profile.html" class="navbar-item">
+              <span class="icon"><i class="fas fa-user"></i></span>
+              <span>My Profile</span>
+            </a>
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-cog"></i></span>
+              <span>Settings</span>
+            </a>
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-envelope"></i></span>
+              <span>Messages</span>
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+              <span>Log Out</span>
+            </a>
           </div>
-        </li>
-        <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
-          <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-            <img class="img-xs rounded-circle ml-2" src="static/stellar/images/faces/face8.jpg" alt="Profile image"> <span class="font-weight-normal"> TesztJoco </span></a>
-          <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-            <div class="dropdown-header text-center">
-              <img class="img-md rounded-circle" src="static/stellar/images/faces/face8.jpg" alt="Profile image">
-              <p class="mb-1 mt-3">Teszt József</p>
-              <p class="font-weight-light text-muted mb-0">tesztjoszef@gmail.com</p>
-            </div>
-            <a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> My Profile <span class="badge badge-pill badge-danger">1</span></a>
-            <a class="dropdown-item"><i class="dropdown-item-icon icon-speech text-primary"></i> Messages</a>
-            <a class="dropdown-item"><i class="dropdown-item-icon icon-energy text-primary"></i> Activity</a>
-            <a class="dropdown-item"><i class="dropdown-item-icon icon-question text-primary"></i> FAQ</a>
-            <a class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>Sign Out</a>
-          </div>
-        </li>
-      </ul>
-      <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-        <span class="icon-menu"></span>
-      </button>
+        </div>
+        <a title="Log out" class="navbar-item is-desktop-icon-only">
+          <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+          <span>Log out</span>
+        </a>
+      </div>
     </div>
   </nav>
-
-  <div class="container-fluid page-body-wrapper">
-    
-    <!-- sidebar -->
-    <nav class="sidebar sidebar-offcanvas" id="sidebar">
-      <ul class="nav">
-        <!--
-        <li class="nav-item nav-profile">              
-          <a href="#" class="nav-link">
-            <div class="profile-image">
-              <img class="img-xs rounded-circle" src="static/stellar/images/faces/face8.jpg" alt="profile image">
-              <div class="dot-indicator bg-success"></div>
-            </div>
-            <div class="text-wrapper">
-              <p class="profile-name">Allen Moreno</p>
-              <p class="designation">Administrator</p>
-            </div>
-            <div class="icon-container">
-              <i class="icon-bubbles"></i>
-              <div class="dot-indicator bg-danger"></div>
-            </div>
+  <aside class="aside is-placed-left is-expanded">
+    <div class="aside-tools">
+      <!--<div class="aside-tools-label">
+        <span><b>Admin</b> One HTML</span>
+      </div>-->
+    </div>
+    <div class="menu is-menu-main">
+      <p class="menu-label">General</p>
+      <ul class="menu-list">
+        <li>
+          <a href="index.html" class="nav-link has-icon is-active" data-page="dashboard">
+            <span class="icon"><i class="fas fa-desktop"></i></span>
+            <span class="menu-item-label">Dashboard</span>
           </a>
         </li>
-        -->
-        <li class="nav-item nav-category">
-          <span class="nav-link">Dashboard</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)" data-page="dashboard">
-            <span class="menu-title">Dashboard</span>
-            <i class="icon-screen-desktop menu-icon"></i>
-          </a>
-        </li>
-        <li class="nav-item nav-category"><span class="nav-link">UI Elements</span></li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-            <span class="menu-title">Basic UI Elements</span>
-            <i class="icon-layers menu-icon"></i>
-          </a>
-          <div class="collapse" id="ui-basic">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/ui-features/buttons.html">Buttons</a></li>
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/ui-features/typography.html">Typography</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)" data-page="ajax-table">
-            <span class="menu-title">Ajax Table</span>
-            <i class="icon-globe menu-icon"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="static/stellar/pages/forms/basic_elements.html">
-            <span class="menu-title">Form Elements</span>
-            <i class="icon-book-open menu-icon"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="static/stellar/pages/charts/chartist.html">
-            <span class="menu-title">Charts</span>
-            <i class="icon-chart menu-icon"></i>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="static/stellar/pages/tables/basic-table.html">
-            <span class="menu-title">Tables</span>
-            <i class="icon-grid menu-icon"></i>
-          </a>
-        </li>
-        <!--
-        <li class="nav-item nav-category"><span class="nav-link">Sample Pages</span></li>            
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-            <span class="menu-title">General Pages</span>
-            <i class="icon-doc menu-icon"></i>
-          </a>
-          <div class="collapse" id="auth">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/samples/login.html"> Login </a></li>
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/samples/register.html"> Register </a></li>
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/samples/error-404.html"> 404 </a></li>
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/samples/error-500.html"> 500 </a></li>
-              <li class="nav-item"> <a class="nav-link" href="static/stellar/pages/samples/blank-page.html"> Blank Page </a></li>
-            </ul>
-          </div>
-        </li>
-        -->
       </ul>
-    </nav>
-    <div class="main-panel">
-      <div id="content" class="content-wrapper">
-
-        <?= fetch_block('content') ?>
-
-      </div>
-      <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-          <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-          <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+      <p class="menu-label">Examples</p>
+      <ul class="menu-list">
+        <li>
+          <a href="tables.html" class="nav-link has-icon" data-page="ajax-table">
+            <span class="icon"><i class="fas fa-table"></i></span><!-- class="has-update-mark" -->
+            <span class="menu-item-label">Forms and Tables</span>
+          </a>
+        </li>
+        <!--
+        <li>
+          <a href="forms.html" class="has-icon">
+            <span class="icon"><i class="mdi mdi-square-edit-outline"></i></span>
+            <span class="menu-item-label">Forms</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="has-icon">
+            <span class="icon"><i class="mdi mdi-account-circle"></i></span>
+            <span class="menu-item-label">Profile</span>
+          </a>
+        </li>
+        <li>
+          <a class="has-icon has-dropdown-icon">
+            <span class="icon"><i class="mdi mdi-view-list"></i></span>
+            <span class="menu-item-label">Submenus</span>
+            <div class="dropdown-icon">
+              <span class="icon"><i class="mdi mdi-plus"></i></span>
+            </div>
+          </a>
+          <ul>
+            <li>
+              <a href="#void">
+                <span>Sub-item One</span>
+              </a>
+            </li>
+            <li>
+              <a href="#void">
+                <span>Sub-item Two</span>
+              </a>
+            </li>
+            -->
+          </ul>
+        </li>
+      </ul>
+      <p class="menu-label">About</p>
+      <ul class="menu-list">
+        <!--
+        <li>
+          <a href="https://admin-one-html.justboil.me/" target="_blank" class="has-icon">
+            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
+            <span class="menu-item-label">Premium Demo</span>
+          </a>
+        </li>
+        -->
+        <li>
+          <a href="https://justboil.me/bulma-admin-template/one-html" class="has-icon">
+            <span class="icon"><i class="fas fa-info-circle"></i></span>
+            <span class="menu-item-label">About</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <section class="section is-title-bar" style="padding: .6em 1.5em .5em 1.5em">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <ul>
+            <li style="font-size: 1em;">Admin</li>
+            <li style="font-size: 1em;">Tables</li>
+          </ul>
         </div>
+      </div>
+      <!--
+      <div class="level-right">
+        <div class="level-item">
+          <div class="buttons is-right">
+            <a href="https://admin-one-html.justboil.me/" target="_blank" class="button is-primary">
+              <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
+              <span>Premium Demo</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      -->
+    </div>
+  </section>
+
+  <div id="content">
+    <?= fetch_block('content') ?>
+  </div>
+
+  <footer class="footer">
+    <!--
+    <div class="container-fluid">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            © 2020, JustBoil.me
+          </div>
+          <div class="level-item">
+            <a href="https://github.com/vikdiesel/admin-one-bulma-dashboard" style="height: 20px">
+              <img src="https://img.shields.io/github/v/release/vikdiesel/admin-one-bulma-dashboard?color=%23999">
+            </a>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <div class="logo">
+              <a href="https://justboil.me"><img src="img/justboil-logo.svg" alt="JustBoil.me"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  -->
+  </footer>
+
+  <div id="sample-modal" class="modal">
+    <div class="modal-background jb-modal-close"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Confirm action</p>
+        <button class="delete jb-modal-close" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <p>This will permanently delete <b>Some Object</b></p>
+        <p>This is sample modal</p>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button jb-modal-close">Cancel</button>
+        <button class="button is-danger jb-modal-close">Delete</button>
       </footer>
     </div>
+    <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
   </div>
 </div>
-<?= script('jquery-3.6.0.min.js') ?>
-<?= script('stellar/vendors/js/vendor.bundle.base.js') ?>
-<?= script('stellar/js/off-canvas.js') ?>
-<?= script('stellar/js/misc.js') ?>
+
+<!-- Scripts below are for demo only -->
+<?= script('/admin-one/js/main.min.js') ?>
+<?= script('/jquery-3.6.0.min.js') ?>
 <?= fetch_scripts() ?>
 <script>
 
@@ -262,11 +289,11 @@ const GearsApp = new function() {
     const pageStore = {
         // TODO: load from DB
         'dashboard': {
-            url: '<?= route_url('', ['ajax' => 1], '&') ?>',
+            url: '<?= route_url('/', ['ajax' => 1], '&') ?>',
             options: {}
         },
         'ajax-table': {            
-            url: '<?= route_url('ajax-table', ['ajax' => 1], '&') ?>',
+            url: '<?= route_url('/ajax-table', ['ajax' => 1], '&') ?>',
             options: {}
         }
     };
@@ -297,12 +324,16 @@ const GearsApp = new function() {
     }
     */
     this.init = function() {
+        let navLinks = $('a.nav-link[data-page]');
         // app navigation
-        $('.nav-link[data-page]').each(function(i, e) {
-            $(e).click(function () {
-                that.loadPage(
-                    $(e).attr('data-page')
-                );
+        navLinks.each(function(i, e) {
+            $(e).click(function(event) {
+                event.preventDefault();
+                navLinks.each(function(i, e) {
+                    $(e).removeClass('is-active');
+                });
+                $(e).addClass('is-active');
+                that.loadPage($(e).attr('data-page'));
             });
         });
     }

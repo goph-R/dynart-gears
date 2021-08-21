@@ -6,9 +6,11 @@
 $(function() {
 
     const submitId = '#test_name8';
-    const url = '<?= route_url('ajax-table/process-form') ?>';
+    const url = '<?= route_url('/ajax-table/process-form') ?>';
     const formName = '<?= $form->getName() ?>';
     const formId = '#form_' + formName;
+
+    const okCallback = function() { alert('minde ok '); }
 
     // submit form
     $(submitId).click(function(event) {
@@ -20,13 +22,13 @@ $(function() {
             data: $(formId).serialize(),
             success: function(data, status, xhr) {
                 data = JSON.parse(data);
-                if (data.status == 'error') {
-                    Object.entries(data.errors).forEach(entry => {
-                        const [name, error] = entry;                        
-                        $('#form_input_' + formName + '_' + name + ' .form-error').text(error);
-                    });
-                } else {
-                    // .. show a butterfly! εϊз
+                Object.entries(data.errors).forEach(entry => {                    
+                    const [name, error] = entry;
+                    const elem = $('#form_group_' + formName + '_' + name + ' .is-danger');
+                    elem.text(error);
+                });
+                if (data.status == 'ok') {
+                    okCallback();
                 }
                 
             }

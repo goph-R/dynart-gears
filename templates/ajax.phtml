@@ -1,20 +1,49 @@
 <?php use_layout(':app/layout') ?>
 <?php start_block('content') ?>
-<div class="page-header">
-  <h3 class="page-title">Ajax Test</h3>
-</div>
-<div class="row">
-  <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <!--<h4 class="card-title">Card title</h4>-->
 
-        <?= $this->fetch(':app/ajax-form', ['form' => $form]) ?>
-
-        <?= $this->fetch(':app/ajax-table') ?>
-
+<!-- page title -->
+<section class="hero is-hero-bar">
+  <div class="hero-body">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item"><h1 class="title">
+          Forms and Tables
+        </h1></div>
+      </div>
+      <div class="level-right" style="display: none;">
+        <div class="level-item"></div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<!-- page content -->
+<section id="content" class="section is-main-section">
+
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Forms
+      </p>
+    </header>
+    <div class="card-content">
+      <?= $this->fetch(':app/ajax-form', ['form' => $form]) ?>
+    </div>
+  </div>
+
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Tables
+      </p>
+    </header>
+    <div class="card-content">
+      <?= $this->fetch(':app/ajax-table') ?>
+    </div>
+  </div>
+
+</section>
+
 <?php end_block() ?>
