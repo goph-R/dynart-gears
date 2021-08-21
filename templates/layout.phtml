@@ -2,15 +2,10 @@
 <html lang="en" class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tables - Admin One HTML - Bulma Admin Dashboard</title>
-
-  <!-- Bulma is included -->
-  <link rel="stylesheet" href="static/admin-one/css/main.min.css">
-  <link rel="stylesheet" href="static/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="static/jquery-ui.min.css">
-
+  <title>Dynart Gears</title>
+  <?= css('/admin-one/css/main.min.css') ?>
+  <?= css('/fontawesome/css/all.min.css') ?>
   <!-- Fonts -->
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet" type="text/css">
@@ -22,19 +17,30 @@
     .control .checkbox-group-row label {
       padding: 0 1.5rem 0.5rem 0.3rem;
     }
-    .aside-tools {
+    aside.aside .aside-tools, aside.aside {
+      background-color: #2b333b;
+    }
+    aside.aside .aside-tools {
       background: url(static/images/dynart-gears-logo.svg) no-repeat center left;
       background-size: contain;
       /*width: 152px*/
     }
     aside.aside.is-expanded {
-      width: 19rem;
+      width: 17rem;
     }
+    .menu-list a.is-active {
+      background-color: #72c100;
+    }
+    .menu-list a {
+      color: #8591a9;
+    }
+
     @media screen and (min-width: 1024px) {
       html.has-aside-left.has-aside-expanded nav.navbar, html.has-aside-left.has-aside-expanded body {
-        padding-left: 19rem;
+        padding-left: 17rem;
       }
     }
+
   </style>
 </head>
 <body>
@@ -141,7 +147,7 @@
       <p class="menu-label">Examples</p>
       <ul class="menu-list">
         <li>
-          <a href="tables.html" class="nav-link has-icon" data-page="ajax-table">
+          <a href="tables.html" class="nav-link has-icon" data-page="test">
             <span class="icon"><i class="fas fa-table"></i></span><!-- class="has-update-mark" -->
             <span class="menu-item-label">Forms and Tables</span>
           </a>
@@ -289,11 +295,11 @@ const GearsApp = new function() {
     const pageStore = {
         // TODO: load from DB
         'dashboard': {
-            url: '<?= route_url('/', ['ajax' => 1], '&') ?>',
+            url: '<?= route_url('/dashboard') ?>',
             options: {}
         },
-        'ajax-table': {            
-            url: '<?= route_url('/ajax-table', ['ajax' => 1], '&') ?>',
+        'test': {            
+            url: '<?= route_url('/test') ?>',
             options: {}
         }
     };

@@ -10,7 +10,7 @@ class GearsApp extends App {
         parent::__construct($configPaths);
         $this->framework->add([
             'dashboard' => 'Controllers\Dashboard',
-            'ajaxTable' => 'Controllers\AjaxTable',
+            'test' => 'Controllers\Test',
         ],
             '\Dynart\Gears'
         );
@@ -20,8 +20,9 @@ class GearsApp extends App {
         parent::init();
         $this->router->add([
             ['/', 'dashboard', 'index'],
-            ['/ajax-table', 'ajaxTable', 'index'],
-            ['/ajax-table/process-form', 'ajaxTable', 'processForm', ['POST']],
+            ['/dashboard', 'dashboard', 'ajaxIndex'],
+            ['/test', 'test', 'index'],
+            ['/test/process-form', 'test', 'processForm', ['POST']],
         ]);
         $this->view->addFolder(':app', 'templates');
     }
