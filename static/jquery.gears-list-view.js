@@ -2,8 +2,10 @@ $.fn.listView = function(url, options) {
 
     // set up template
     const template = `
-        <div class="gears-list-view-pager"></div>
-        <table>
+        <nav class="pagination" role="navigation" aria-label="pagination">            
+            
+        </nav>
+        <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
             <thead></thead>
             <tbody></tbody>
         </table>
@@ -15,7 +17,7 @@ $.fn.listView = function(url, options) {
     }
 
     // get constants
-    const pager = $(this).find('.gears-list-view-pager');
+    const pager = $(this).find('nav');
     const thead = $(this).find('thead');
     const tbody = $(this).find('tbody');
     const that = this;
@@ -108,27 +110,63 @@ $.fn.listView = function(url, options) {
     };
 
     this.createPager = function(pager, data, options) {
+
         const allPages = Math.ceil(data.count / options.pageSize);
+
+        // prev, next buttons
+        const prevLink = $('<a>');
+        const nextLink = $('<a>');
         pager.html('');
+        prevLink.addClass('pagination-previous');
+        prevLink.text('<');
+        nextLink.addClass('pagination-next');
+        nextLink.text('>');
+        if (!options.page && allPages > 1) {
+            prevLink.attr('disabled', 'disabled');
+        }
+        if (options.page == allPages - 1) {
+            nextLink.attr('disabled', 'disabled');
+        }
+        pager.append(prevLink);
+        pager.append(nextLink);
+
+        nextLink.click(function() {
+            if (options.page == allPages - 1) {
+                return;
+            }
+            options.page++;
+            that.refresh();
+        });
+
+        prevLink.click(function() {
+            if (!options.page) {
+                return;
+            }
+            options.page--;
+            that.refresh();
+        });
+
+        // pages
+        const pageList = $('<ul>');
+        pageList.addClass(['pagination-list', 'gears-list-view-pager']);
         for (let i = 0; i < allPages; i++) {
             const link = this.createPagerLink(i, options);
             link.click(function() {
                 options.page = i;
                 that.refresh();
             });
-            pager.append(link);
-        }        
+            pageList.append(link);
+        }
+        pager.append(pageList);
     }
 
     this.createPagerLink = function(page, options) {
-        const link = $('<a>');            
-        if (page == options.page) {
-            link.addClass('gears-list-view-pager-active');
-        } else {
-            link.removeClass('gears-list-view-pager-active');
-        }
+        const listItem = $('<li>');
+        const link = $('<a>');
+        link.addClass(['pagination-link', page == options.page ? 'is-current' : '']);
         link.text(page + 1);
-        return link;      
+        listItem.append(link);
+        return listItem;
     }
 
     this.refresh();
