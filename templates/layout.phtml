@@ -1,376 +1,210 @@
 <!DOCTYPE html>
 <html lang="en" class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dynart Gears</title>
-  <?= css('/admin-one/css/main.min.css') ?>
-  <?= css('/fontawesome/css/all.min.css') ?>
-  <!-- Fonts -->
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet" type="text/css">
-  <?= fetch_styles() ?>
-  <style>
-    .title {
-      font-size: 1.5rem;
-    }
-    .control .checkbox-group-row label {
-      padding: 0 1.5rem 0.5rem 0.3rem;
-    }
-    aside.aside .aside-tools, aside.aside {
-      background-color: #2b333b;
-    }
-    aside.aside .aside-tools {
-      background: url(static/images/dynart-gears-logo.svg) no-repeat center left;
-      background-size: contain;
-      /*width: 152px*/
-    }
-    aside.aside.is-expanded {
-      width: 17rem;
-    }
-    .menu-list a.is-active {
-      background-color: #72c100;
-    }
-    .menu-list a {
-      color: #8591a9;
-    }
-
-    @media screen and (min-width: 1024px) {
-      html.has-aside-left.has-aside-expanded nav.navbar, html.has-aside-left.has-aside-expanded body {
-        padding-left: 17rem;
-      }
-    }
-
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dynart Gears</title>
+    <?= css('/admin-one/css/main.min.css') ?>
+    <?= css('/fontawesome/css/all.min.css') ?>
+    <?= css('/main.css') ?>
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet" type="text/css">
+    <?= fetch_styles() ?>
 </head>
 <body>
 <div id="app">
-  <nav id="navbar-main" class="navbar is-fixed-top">
-    <div class="navbar-brand">
-      <a class="navbar-item is-hidden-desktop jb-aside-mobile-toggle">
-        <span class="icon"><i class="fas fa-bars"></i></span>
-      </a>
-      <!--
-        <div class="navbar-item has-control">
-          <div class="control"><input placeholder="Search everywhere..." class="input"></div>
-        </div>
-      -->
-    </div>
-    <div class="navbar-brand is-right">
-      <a class="navbar-item is-hidden-desktop jb-navbar-menu-toggle" data-target="navbar-menu">
-        <span class="icon"><i class="fas fa-ellipsis-v"></i></span>
-      </a>
-    </div>
-    <div class="navbar-menu fadeIn animated faster" id="navbar-menu">
-      <div class="navbar-end">
-        <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider is-hoverable">
-          <a class="navbar-link is-arrowless">
-            <span class="icon">
-              <i class="fas fa-bars"></i>
-            </span>
-            <span>Sample Menu</span>
-            <span class="icon">
-              <i class="fas fa-chevron-down"></i>
-            </span>
-          </a>
-          <div class="navbar-dropdown">
-            <a href="profile.html" class="navbar-item">
-              <span class="icon"><i class="fas fa-user"></i></span>
-              <span>My Profile</span>
+    <nav id="navbar-main" class="navbar is-fixed-top">
+        <div class="navbar-brand">
+            <a class="navbar-item is-hidden-desktop jb-aside-mobile-toggle">
+                <span class="icon"><i class="fas fa-bars"></i></span>
             </a>
-            <a class="navbar-item">
-              <span class="icon"><i class="fas fa-cog"></i></span>
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <span class="icon"><i class="fas fa-envelope"></i></span>
-              <span>Messages</span>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-              <span>Log Out</span>
-            </a>
-          </div>
-        </div>
-        <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider has-user-avatar is-hoverable">
-          <a class="navbar-link is-arrowless">
-            <div class="is-user-avatar">
-              <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" alt="Rebecca Bauch">
-            </div>
-            <div class="is-user-name"><span>Rebecca Bauch</span></div>
-            <span class="icon"><i class="fas fa-chevron-down"></i></span>
-          </a>
-          <div class="navbar-dropdown">
-            <a href="profile.html" class="navbar-item">
-              <span class="icon"><i class="fas fa-user"></i></span>
-              <span>My Profile</span>
-            </a>
-            <a class="navbar-item">
-              <span class="icon"><i class="fas fa-cog"></i></span>
-              <span>Settings</span>
-            </a>
-            <a class="navbar-item">
-              <span class="icon"><i class="fas fa-envelope"></i></span>
-              <span>Messages</span>
-            </a>
-            <hr class="navbar-divider">
-            <a class="navbar-item">
-              <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-              <span>Log Out</span>
-            </a>
-          </div>
-        </div>
-        <a title="Log out" class="navbar-item is-desktop-icon-only">
-          <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
-          <span>Log out</span>
-        </a>
-      </div>
-    </div>
-  </nav>
-  <aside class="aside is-placed-left is-expanded">
-    <div class="aside-tools">
-      <!--<div class="aside-tools-label">
-        <span><b>Admin</b> One HTML</span>
-      </div>-->
-    </div>
-    <div class="menu is-menu-main">
-      <p class="menu-label">General</p>
-      <ul class="menu-list">
-        <li>
-          <a href="index.html" class="nav-link has-icon is-active" data-page="dashboard">
-            <span class="icon"><i class="fas fa-desktop"></i></span>
-            <span class="menu-item-label">Dashboard</span>
-          </a>
-        </li>
-      </ul>
-      <p class="menu-label">Examples</p>
-      <ul class="menu-list">
-        <li>
-          <a href="tables.html" class="nav-link has-icon" data-page="test">
-            <span class="icon"><i class="fas fa-table"></i></span><!-- class="has-update-mark" -->
-            <span class="menu-item-label">Forms and Tables</span>
-          </a>
-        </li>
-        <!--
-        <li>
-          <a href="forms.html" class="has-icon">
-            <span class="icon"><i class="mdi mdi-square-edit-outline"></i></span>
-            <span class="menu-item-label">Forms</span>
-          </a>
-        </li>
-        <li>
-          <a href="profile.html" class="has-icon">
-            <span class="icon"><i class="mdi mdi-account-circle"></i></span>
-            <span class="menu-item-label">Profile</span>
-          </a>
-        </li>
-        <li>
-          <a class="has-icon has-dropdown-icon">
-            <span class="icon"><i class="mdi mdi-view-list"></i></span>
-            <span class="menu-item-label">Submenus</span>
-            <div class="dropdown-icon">
-              <span class="icon"><i class="mdi mdi-plus"></i></span>
-            </div>
-          </a>
-          <ul>
-            <li>
-              <a href="#void">
-                <span>Sub-item One</span>
-              </a>
-            </li>
-            <li>
-              <a href="#void">
-                <span>Sub-item Two</span>
-              </a>
-            </li>
+            <!--
+              <div class="navbar-item has-control">
+                <div class="control"><input placeholder="Search everywhere..." class="input"></div>
+              </div>
             -->
-          </ul>
-        </li>
-      </ul>
-      <p class="menu-label">About</p>
-      <ul class="menu-list">
+        </div>
+        <div class="navbar-brand is-right">
+            <a class="navbar-item is-hidden-desktop jb-navbar-menu-toggle" data-target="navbar-menu">
+                <span class="icon"><i class="fas fa-ellipsis-v"></i></span>
+            </a>
+        </div>
+
+        <div class="navbar-menu fadeIn animated faster" id="navbar-menu">
+            <div class="navbar-end">
+                <!--
+              <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider is-hoverable">
+                <a class="navbar-link is-arrowless">
+                  <span class="icon">
+                    <i class="fas fa-bars"></i>
+                  </span>
+                  <span>Sample Menu</span>
+                  <span class="icon">
+                    <i class="fas fa-chevron-down"></i>
+                  </span>
+                </a>
+                <div class="navbar-dropdown">
+                  <a href="profile.html" class="navbar-item">
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <span>My Profile</span>
+                  </a>
+                  <a class="navbar-item">
+                    <span class="icon"><i class="fas fa-cog"></i></span>
+                    <span>Settings</span>
+                  </a>
+                  <a class="navbar-item">
+                    <span class="icon"><i class="fas fa-envelope"></i></span>
+                    <span>Messages</span>
+                  </a>
+                  <hr class="navbar-divider">
+                  <a class="navbar-item">
+                    <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                    <span>Log Out</span>
+                  </a>
+                </div>
+              </div>-->
+                <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider has-user-avatar is-hoverable">
+                    <a class="navbar-link is-arrowless">
+                        <div class="is-user-avatar">
+                            <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" alt="Rebecca Bauch">
+                        </div>
+                        <div class="is-user-name"><span>Rebecca Bauch</span></div>
+                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                    </a>
+                    <div class="navbar-dropdown">
+                        <?= $this->fetch(':app/menu-profile') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="aside is-placed-left is-expanded">
+        <div class="aside-tools"></div>
+        <?= $this->fetch(':app/menu') ?>
+    </aside>
+
+    <?= $this->fetch(':app/breadcrumb') ?>
+
+    <div id="content">
+        <?= fetch_block('content') ?>
+    </div>
+
+    <footer class="footer">
         <!--
-        <li>
-          <a href="https://admin-one-html.justboil.me/" target="_blank" class="has-icon">
-            <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
-            <span class="menu-item-label">Premium Demo</span>
-          </a>
-        </li>
-        -->
-        <li>
-          <a href="https://justboil.me/bulma-admin-template/one-html" class="has-icon">
-            <span class="icon"><i class="fas fa-info-circle"></i></span>
-            <span class="menu-item-label">About</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </aside>
-  <section class="section is-title-bar" style="padding: .6em 1.5em .5em 1.5em">
-    <div class="level">
-      <div class="level-left">
-        <div class="level-item">
-          <ul>
-            <li style="font-size: 1em;">Admin</li>
-            <li style="font-size: 1em;">Tables</li>
-          </ul>
-        </div>
-      </div>
-      <!--
-      <div class="level-right">
-        <div class="level-item">
-          <div class="buttons is-right">
-            <a href="https://admin-one-html.justboil.me/" target="_blank" class="button is-primary">
-              <span class="icon"><i class="mdi mdi-credit-card-outline"></i></span>
-              <span>Premium Demo</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      -->
-    </div>
-  </section>
-
-  <div id="content">
-    <?= fetch_block('content') ?>
-  </div>
-
-  <footer class="footer">
-    <!--
-    <div class="container-fluid">
-      <div class="level">
-        <div class="level-left">
-          <div class="level-item">
-            © 2020, JustBoil.me
-          </div>
-          <div class="level-item">
-            <a href="https://github.com/vikdiesel/admin-one-bulma-dashboard" style="height: 20px">
-              <img src="https://img.shields.io/github/v/release/vikdiesel/admin-one-bulma-dashboard?color=%23999">
-            </a>
-          </div>
-        </div>
-        <div class="level-right">
-          <div class="level-item">
-            <div class="logo">
-              <a href="https://justboil.me"><img src="img/justboil-logo.svg" alt="JustBoil.me"></a>
+        <div class="container-fluid">
+          <div class="level">
+            <div class="level-left">
+              <div class="level-item">
+                © 2020, JustBoil.me
+              </div>
+              <div class="level-item">
+                <a href="https://github.com/vikdiesel/admin-one-bulma-dashboard" style="height: 20px">
+                  <img src="https://img.shields.io/github/v/release/vikdiesel/admin-one-bulma-dashboard?color=%23999">
+                </a>
+              </div>
+            </div>
+            <div class="level-right">
+              <div class="level-item">
+                <div class="logo">
+                  <a href="https://justboil.me"><img src="img/justboil-logo.svg" alt="JustBoil.me"></a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  -->
-  </footer>
-
-  <div id="sample-modal" class="modal">
-    <div class="modal-background jb-modal-close"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Confirm action</p>
-        <button class="delete jb-modal-close" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <p>This will permanently delete <b>Some Object</b></p>
-        <p>This is sample modal</p>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button jb-modal-close">Cancel</button>
-        <button class="button is-danger jb-modal-close">Delete</button>
-      </footer>
-    </div>
-    <button class="modal-close is-large jb-modal-close" aria-label="close"></button>
-  </div>
+      -->
+    </footer>
 </div>
 
-<!-- Scripts below are for demo only -->
 <?= script('/admin-one/js/main.min.js') ?>
 <?= script('/jquery-3.6.0.min.js') ?>
 <?= fetch_scripts() ?>
 <script>
 
-const GearsApp = new function() {
-    
-    let that = this;
+    const GearsApp = new function() {
 
-    const pageStore = {
-        // TODO: load from DB
-        'dashboard': {
-            url: '<?= route_url('/dashboard') ?>',
-            options: {}
-        },
-        'test': {            
-            url: '<?= route_url('/test') ?>',
-            options: {}
+        let that = this;
+
+        const pageStore = {
+            // TODO: load from DB
+            'dashboard': {
+                url: '<?= route_url('/dashboard') ?>',
+                options: {}
+            },
+            'test': {
+                url: '<?= route_url('/test') ?>',
+                options: {}
+            }
+        };
+
+        this.hasOptions = function(name) {
+            return pageStore[name] !== undefined;
+        };
+
+        this.getOptions = function(name) {
+            console.log("name: " + name);
+            return pageStore[name].options;
+        };
+
+        this.setOptions = function(name, options) {
+            pageStore[name].options = options;
+            // TODO: save to DB
+        };
+
+        this.loadPage = function(name) {
+            $.get(pageStore[name].url, function(content) {
+                $('#content').html(content);
+            });
+        };
+        /*
+        this.post = function(url, data, resultContainer) {
+            $.post(url, data, function(content) {
+                $(resultContainer).html(content);
+            });
         }
+        */
+        this.init = function() {
+            let navLinks = $('a.nav-link[data-page]');
+            // app navigation
+            navLinks.each(function(i, e) {
+                $(e).click(function(event) {
+                    event.preventDefault();
+                    navLinks.each(function(i, e) {
+                        $(e).removeClass('is-active');
+                    });
+                    $(e).addClass('is-active');
+                    that.loadPage($(e).attr('data-page'));
+                });
+            });
+        }
+
     };
 
-    this.hasOptions = function(name) {
-        return pageStore[name] !== undefined;
-    }
+    $(function() {
+        GearsApp.init();
+    });
 
-    this.getOptions = function(name) {
-        console.log("name: " + name);
-        return pageStore[name].options;
-    }
-
-    this.setOptions = function(name, options) {
-        pageStore[name].options = options;
-        // TODO: save to DB
-    }
-
-    this.loadPage = function(name) {
-        $.get(pageStore[name].url, function(content) {
-            $('#content').html(content);
-        });
-    }
     /*
-    this.post = function(url, data, resultContainer) {
-        $.post(url, data, function(content) {
-            $(resultContainer).html(content);
-        });
-    }
+    // locale switcher
+    $(function() {
+
+        $('#locale_hu').click(function() { setLocale('hu'); });
+        $('#locale_en').click(function() { setLocale('en'); });
+
+        function setLocale(locale) {
+            options.locale = locale;
+            const text = $('#LanguageDropdown span');
+            const icon = $('#LanguageDropdown i');
+            flag = locale == 'en' ? 'us' : locale;
+            icon.removeClass();
+            icon.addClass(['flag-icon', 'flag-icon-' + flag]);
+            text.text(locale == 'en' ? 'English' : 'Magyar');
+            table.refresh();
+        }
+
+    });
     */
-    this.init = function() {
-        let navLinks = $('a.nav-link[data-page]');
-        // app navigation
-        navLinks.each(function(i, e) {
-            $(e).click(function(event) {
-                event.preventDefault();
-                navLinks.each(function(i, e) {
-                    $(e).removeClass('is-active');
-                });
-                $(e).addClass('is-active');
-                that.loadPage($(e).attr('data-page'));
-            });
-        });
-    }
-
-};
-
-$(function() {
-    GearsApp.init();
-});
-
-/*
-// locale switcher
-$(function() {  
-
-    $('#locale_hu').click(function() { setLocale('hu'); });
-    $('#locale_en').click(function() { setLocale('en'); });
-
-    function setLocale(locale) {
-        options.locale = locale;
-        const text = $('#LanguageDropdown span');
-        const icon = $('#LanguageDropdown i');
-        flag = locale == 'en' ? 'us' : locale;
-        icon.removeClass();
-        icon.addClass(['flag-icon', 'flag-icon-' + flag]);
-        text.text(locale == 'en' ? 'English' : 'Magyar');
-        table.refresh();
-    }
-
-});
-*/
 </script>
 
 </body>

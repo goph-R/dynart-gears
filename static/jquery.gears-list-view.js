@@ -2,13 +2,12 @@ $.fn.listView = function(url, options) {
 
     // set up template
     const template = `
-        <nav class="pagination" role="navigation" aria-label="pagination">            
-            
-        </nav>
+        <nav class="pagination pagination-top" role="navigation" aria-label="pagination"></nav>
         <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
             <thead></thead>
             <tbody></tbody>
         </table>
+        <nav class="pagination pagination-bottom" role="navigation" aria-label="pagination"></nav>
     `;
 
     $(this).addClass('gears-list-view');
@@ -17,7 +16,8 @@ $.fn.listView = function(url, options) {
     }
 
     // get constants
-    const pager = $(this).find('nav');
+    const topPager = $(this).find('nav.pagination-top');
+    const bottomPager = $(this).find('nav.pagination-bottom');
     const thead = $(this).find('thead');
     const tbody = $(this).find('tbody');
     const that = this;
@@ -34,7 +34,8 @@ $.fn.listView = function(url, options) {
             const data = JSON.parse(content);
             that.createHeaders(thead, data, options);
             that.createContent(tbody, data, options);
-            that.createPager(pager, data, options);
+            that.createPager(topPager, data, options);
+            that.createPager(bottomPager, data, options);
         });
     };
 
@@ -65,11 +66,11 @@ $.fn.listView = function(url, options) {
 
     this.getUpArrow = function() {
         return '&#8593';
-    }
+    };
 
     this.getDownArrow = function() {
         return '&#8595';
-    }
+    };
 
     this.createHeaderLabel = function(header, options) {
         let label = header.label;
@@ -92,7 +93,7 @@ $.fn.listView = function(url, options) {
             that.refresh();
         });
         return link;        
-    }
+    };
 
     this.createContent = function(tbody, data, options) {
         tbody.html('');
@@ -158,7 +159,7 @@ $.fn.listView = function(url, options) {
             pageList.append(link);
         }
         pager.append(pageList);
-    }
+    };
 
     this.createPagerLink = function(page, options) {
         const listItem = $('<li>');
@@ -167,7 +168,7 @@ $.fn.listView = function(url, options) {
         link.text(page + 1);
         listItem.append(link);
         return listItem;
-    }
+    };
 
     this.refresh();
 
