@@ -1,21 +1,21 @@
-$.fn.ajaxTable = function(url, options) {
+$.fn.listView = function(url, options) {
 
     // set up template
     const template = `
-        <div class="ajax-table-pager"></div>
+        <div class="gears-list-view-pager"></div>
         <table>
             <thead></thead>
             <tbody></tbody>
         </table>
     `;
 
-    $(this).addClass('ajax-table');
+    $(this).addClass('gears-list-view');
     if (!$(this).html()) {
         $(this).html(template);
     }
 
     // get constants
-    const pager = $(this).find('.ajax-table-pager');
+    const pager = $(this).find('.gears-list-view-pager');
     const thead = $(this).find('thead');
     const tbody = $(this).find('tbody');
     const that = this;
@@ -53,9 +53,9 @@ $.fn.ajaxTable = function(url, options) {
         let link = this.createHeaderLink(label, header, options);
         result.append(link);
         if (header.field == options.orderBy) {            
-            result.addClass('ajax-table-header-active');
+            result.addClass('gears-list-view-header-active');
         } else {
-            result.removeClass('ajax-table-header-active');
+            result.removeClass('gears-list-view-header-active');
         }
         result.css('width', header.width);
         return result;
@@ -123,9 +123,9 @@ $.fn.ajaxTable = function(url, options) {
     this.createPagerLink = function(page, options) {
         const link = $('<a>');            
         if (page == options.page) {
-            link.addClass('ajax-table-pager-active');
+            link.addClass('gears-list-view-pager-active');
         } else {
-            link.removeClass('ajax-table-pager-active');
+            link.removeClass('gears-list-view-pager-active');
         }
         link.text(page + 1);
         return link;      

@@ -28,7 +28,7 @@
       </p>
     </header>
     <div class="card-content">
-      <?= $this->fetch(':app/ajax-form', ['form' => $form]) ?>
+      <?= $this->fetch(':app/form', ['form' => $form]) ?>
     </div>
   </div>
 
@@ -40,7 +40,7 @@
       </p>
     </header>
     <div class="card-content">
-      <?= $this->fetch(':app/ajax-table') ?>
+      <?= $this->fetch(':app/list-view', ['listView' => $listView]) ?>
     </div>
   </div>
 

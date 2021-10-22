@@ -1,17 +1,17 @@
-.ajax-table th a {
+.gears-list-view th a {
     padding: 2px 5px;
     cursor: pointer;
 }
 
-.ajax-table-header-active {
+.gears-list-view-header-active {
     background: #aaa;
 }
 
-.ajax-table-pager a {
+.gears-list-view-pager a {
     padding: 2px 5px;
     cursor: pointer;
 }
 
-.ajax-table-pager-active {
+.gears-list-view-pager-active {
     background: #aaa;
 }

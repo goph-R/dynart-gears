@@ -1,20 +1,20 @@
-<div id="ajax_table">
+<div id="list_view">
   <nav><ul class="pagination ajax-table-pager"></ul></nav>                      
   <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
     <thead></thead>
     <tbody></tbody>
   </table>
 </div>
-<?php use_script('/jquery.ajax-table.js'); ?>
+<?php use_script('/jquery.gears-list-view.js'); ?>
 <?php append_block('scripts') ?>
 <script>
 $(function() {
 
-    let options = GearsApp.getOptions('ajax-table');
+    let options = GearsApp.getOptions('test');
     options.locale = '<?= \Dynart\Minicore\Framework::instance()->get('translation')->getLocale() ?>';
 
     // ajax table
-    const table = $('#ajax_table').ajaxTable('ajax-server.php', options);
+    const table = $('#list_view').listView('<?= route_url('/test/list') ?>', options);
     table.createPagerLink = function(page, options) {
         const listItem = $('<li>');
         listItem.addClass(['page-item', page == options.page ? 'active' : '']);

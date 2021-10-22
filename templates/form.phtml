@@ -24,10 +24,10 @@ $(function() {
                 data = JSON.parse(data);
                 Object.entries(data.errors).forEach(entry => {                    
                     const [name, error] = entry;
-                    const elem = $('#form_group_' + formName + '_' + name + ' .is-danger');
+                    const elem = $('#form_group_' + formName + '_' + name + ' p.is-danger');
                     elem.text(error);
                 });
-                if (data.status == 'ok') {
+                if ('ok' == data.status) {
                     okCallback();
                 }
                 
