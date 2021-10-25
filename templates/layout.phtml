@@ -72,7 +72,7 @@
                         <span class="icon"><i class="fas fa-chevron-down"></i></span>
                     </a>
                     <div class="navbar-dropdown">
-                        <?= $this->fetch(':app/menu-profile') ?>
+                        <?= $this->fetch(':app/layout-menu-profile') ?>
                     </div>
                 </div>
             </div>
@@ -81,10 +81,10 @@
 
     <aside class="aside is-placed-left is-expanded">
         <div class="aside-tools"></div>
-        <?= $this->fetch(':app/menu') ?>
+        <?= $this->fetch(':app/layout-menu') ?>
     </aside>
 
-    <?= $this->fetch(':app/breadcrumb') ?>
+    <?= $this->fetch(':app/layout-breadcrumb') ?>
 
     <div id="content">
         <?= fetch_block('content') ?>

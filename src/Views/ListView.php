@@ -29,8 +29,8 @@ class ListView implements \JsonSerializable {
 
     public function jsonSerialize() {
         $query = Framework::instance()->get($this->queryName);
-        $records = $query->findAll($this->fields, $this->options);
-        $count = $query->findAllCount($this->options);
+        $records = $query->find($this->fields, $this->options);
+        $count = $query->findCount($this->options);
         return [
             'items' => $records,
             'count' => $count,
