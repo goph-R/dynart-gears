@@ -7,14 +7,15 @@ use Dynart\Gears\Views\ListView;
 use Dynart\Minicore\Controller;
 use Dynart\Minicore\Form;
 
-// -- Don't store these here (declarations added in GearsApp constructor)
+// -- Don't store these here (declarations added in GearsAdminApp constructor)
 use Dynart\Minicore\Database\Table;
 use Dynart\Minicore\Database\TranslationTable;
 use Dynart\Minicore\Database\Query;
+use Dynart\Minicore\Framework;
 
 class TestTable extends Table {
     protected $name = 'test'; // use the name as in SQL
-    protected $translationTable = 'testTranslationTable'; // use the name as the instance name in Framework
+    protected $translationTable = 'testTextTable'; // use the name as the instance name in Framework
     protected $fields = [
         'id' => null,
         'number' => null,
@@ -23,8 +24,8 @@ class TestTable extends Table {
     ];
 }
 
-class TestTranslationTable extends TranslationTable {
-    protected $name = 'test_translation';
+class TestTextTable extends TranslationTable {
+    protected $name = 'test_text';
     protected $fields = [
         'id' => null,
         'locale' => null,
@@ -39,6 +40,11 @@ class TestQuery extends Query {
 // --
 
 class Test extends Controller {
+
+    public function __construct() {
+        parent::__construct();
+        Framework::instance()->get('userService')->requireLogin();
+    }
 
     public function index() {
         $this->renderContent(':app/test-index', [
@@ -70,8 +76,12 @@ class Test extends Controller {
 
     private function createListView() {
 
+
         $listView = new ListView('testQuery');
 
+        // $filterForm = $this->createFilterForm();
+        // $filterForm->getOptions()
+        // list view with options
         $listView->setOptions([
             'text'      => $this->request->get('text', ''),
             'order_by'  => $this->request->get('orderBy', 'name'),

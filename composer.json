@@ -6,7 +6,7 @@
     "autoload": {
         "psr-4": {
             "Dynart\\Gears\\": "src/",
-            "Dynart\\Gears\\Modules\\": "../modules/"
+            "Dynart\\Gears\\Modules\\": "modules/"
         }
     },
     "authors": [
@@ -22,7 +22,7 @@
     "repositories": {
         "dynart-minicore": {
             "type": "path",
-            "url": "../../minicore",
+            "url": "../minicore",
             "options": {
                 "symlink": true
             }

@@ -8,11 +8,12 @@ class ModuleQuery extends Query {
 
     protected $table = 'moduleTable';
 
-    public function getConditions() {
-        $result = parent::getConditions();
-        if ($this->getOption('active', false)) {
-            $result[] = 'active = 1';
-        }
-        return $result;
+    public function __construct(string $database = 'database') {
+        parent::__construct($database);
+
+        $this->addSelectOption('active', function () {
+            return $this->optionEquals('active');
+        });
     }
+
 }
