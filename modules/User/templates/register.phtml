@@ -1,0 +1,7 @@
+<?php use_layout(':user/layout') ?>
+<?php start_block('content') ?>
+<h1><?= text('user', 'registration') ?></h1>
+<form action="<?= route_url('/register') ?>" method="post">
+    <?= $form->fetch() ?>
+</form>
+<?php end_block() ?>

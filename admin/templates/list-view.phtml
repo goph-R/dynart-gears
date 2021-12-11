@@ -1,0 +1,14 @@
+<?php use_script('/gears-list-view.js'); ?>
+<div id="list_view"></div>
+<?php append_block('scripts') ?>
+<script>
+$(function() {
+
+    let options = GearsApp.getOptions('test');
+    options.locale = '<?= \Dynart\Minicore\Framework::instance()->get('translation')->getLocale() ?>';
+
+    $('#list_view').gearsListView('<?= route_url('/test/list') ?>', options);
+
+});
+</script>
+<?php end_block() ?>

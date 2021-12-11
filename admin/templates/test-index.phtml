@@ -1,0 +1,51 @@
+<?php use_layout(':app/layout') ?>
+<?php start_block('content') ?>
+
+<!-- page title
+<section class="hero is-hero-bar">
+  <div class="hero-body">
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item"><h1 class="title">
+          Forms and Tables
+        </h1></div>
+      </div>
+      <div class="level-right" style="display: none;">
+        <div class="level-item"></div>
+      </div>
+    </div>
+  </div>
+</section>
+ -->
+
+<!-- page content -->
+<section id="content" class="section is-main-section">
+
+
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                <span class="icon"><i class="mdi mdi-ballot"></i></span>
+                Tables
+            </p>
+        </header>
+        <div class="card-content">
+            <?= $this->fetch(':app/list-view', ['listView' => $listView]) ?>
+        </div>
+    </div>
+
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <span class="icon"><i class="mdi mdi-ballot"></i></span>
+        Forms
+      </p>
+    </header>
+    <div class="card-content">
+      <?= $this->fetch(':app/form', ['form' => $form]) ?>
+    </div>
+  </div>
+
+</section>
+
+<?php end_block() ?>

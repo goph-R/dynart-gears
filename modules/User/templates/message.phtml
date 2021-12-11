@@ -1,0 +1,5 @@
+<?php use_layout(':user/layout') ?>
+<?php start_block('content') ?>
+<h1><?= $title ?></h1>
+<?= $this->fetch(':user/message-box', ['type' => $type, 'text' => $text]) ?>
+<?php end_block() ?>

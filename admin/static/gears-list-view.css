@@ -1,0 +1,17 @@
+.gears-list-view th a {
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.gears-list-view-header-active {
+    background: #aaa;
+}
+
+.gears-list-view-pager a {
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.gears-list-view-pager-active {
+    background: #aaa;
+}

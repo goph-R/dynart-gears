@@ -1,0 +1,60 @@
+<form id="form_<?= $form->getName() ?>">
+      <?= $form->fetch() ?>
+</form>
+<?php append_block('scripts') ?>
+<script>
+$(function() {
+
+    const submitId = '#test_name8';
+    const url = '<?= route_url('/test/process-form') ?>';
+    const formName = '<?= $form->getName() ?>';
+    const formId = '#form_' + formName;
+
+    const okCallback = function() { alert('minden ok '); }
+
+    // submit form
+    $(submitId).click(function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/x-www-form-urlencoded',
+            data: $(formId).serialize(),
+            success: function(data, status, xhr) {
+                data = JSON.parse(data);
+                Object.entries(data.errors).forEach(entry => {                    
+                    const [name, error] = entry;
+                    const elem = $('#form_group_' + formName + '_' + name + ' p.is-danger');
+                    elem.text(error);
+                });
+                if ('ok' == data.status) {
+                    okCallback();
+                }
+                
+            }
+        })
+        
+    });
+
+/*
+    // text search
+    const input = $('#text_search input');
+    input.val(options.text);
+
+    let keyUpTimeout = null;
+    input.keyup(function() {
+        if (keyUpTimeout) {
+            clearTimeout(keyUpTimeout);
+        }
+        keyUpTimeout = setTimeout(function() {
+            options.page = 0;
+            options.text = input.val();
+            //GearsApp.setOptions('ajax-table', options)
+            table.refresh();
+        }, 300);
+    });
+*/    
+
+});
+</script>
+<?php end_block() ?>

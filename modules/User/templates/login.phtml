@@ -1,0 +1,8 @@
+<?php use_layout(':user/login-layout') ?>
+<?php start_block('content') ?>
+<h1><?= text('user', 'login') ?></h1>
+<form action="<?= route_url('/login') ?>" method="post">
+    <?= $form->fetch() ?>
+</form>
+<a href="<?= route_url('/forgot') ?>"><?= text('user', 'forgotten_password') ?></a>
+<?php end_block() ?>
