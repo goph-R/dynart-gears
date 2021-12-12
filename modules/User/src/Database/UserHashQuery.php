@@ -8,7 +8,7 @@ class UserHashQuery extends Query {
 
     protected $table = 'userHashTable';
 
-    public function __construct(string $database = 'database') {
+    public function __construct(string $database='database') {
         parent::__construct($database);
 
         $this->addSelectOption('user_id', function() {

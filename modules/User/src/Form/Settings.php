@@ -4,6 +4,7 @@ namespace Dynart\Gears\Modules\User\src\Form;
 
 use Dynart\Minicore\Database\Record;
 use Dynart\Minicore\Form\Form;
+use Dynart\Minicore\Framework;
 
 class Settings extends Form {
 
@@ -15,12 +16,23 @@ class Settings extends Form {
         );
         $nameInput->setReadOnly(true);
         $this->setRequired('name', false);
-        $this->addInput('first_name', text('user', 'first_name'),
+
+        // full name
+        $first = 'first_name';
+        $last = 'last_name';
+        $translation = Framework::instance()->get('translation');
+        if ($translation->getLocale() == 'hu') {
+            $first = 'last_name';
+            $last = 'first_name';
+        }
+        $this->addInput($first, text('user', $first),
             ['Text']
         );
-        $this->addInput('last_name', text('user', 'last_name'),
+        $this->addInput($last, text('user', $last),
             ['Text']
         );
+        //
+
         $emailInput = $this->addInput('email', 'Email',
             ['Text']
         );

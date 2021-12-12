@@ -14,17 +14,9 @@ class UserQuery extends Query {
 
     protected $table = 'userTable';
 
-    public function __construct(string $database = 'database') {
+    public function __construct(string $database='database') {
         parent::__construct($database);
-
-        // TODO: salt init
-        $framework = Framework::instance();
-        $config = $framework->get('config');
-        $this->salt = $config->get(UserModule::CONFIG_SALT);
-        if (!$this->salt) {
-            throw new FrameworkException("'".UserModule::CONFIG_SALT."' has no value in configuration.");
-        }
-        //
+        $this->initSalt();
 
         $this->addSelectOption('active', function() {
             return $this->optionEquals('active');
@@ -34,20 +26,25 @@ class UserQuery extends Query {
             return $this->optionEquals('email');
         });
 
-        $this->addSelectOption('password', [$this, 'passwordOption']);
-        $this->addSelectOption('except_id', [$this, 'exceptIdOption']);
+        $this->addSelectOption('password', function () {
+            $password = $this->hash($this->getOption('password'));
+            $this->addSqlParams([':password' => $password]);
+            return ['password = :password'];
+        });
+
+        $this->addSelectOption('except_id', function () {
+            $this->addSqlParams([':except_id' => $this->getOption('except_id')]);
+            return ['id <> :except_id'];
+        });
     }
 
-
-    public function passwordOption() {
-        $password = $this->hash($this->getOption('password'));
-        $this->addSqlParams([':password' => $password]);
-        return ['password = :password'];
-    }
-
-    public function exceptIdOption() {
-        $this->addSqlParams([':except_id' => $this->getOption('except_id')]);
-        return ['id <> :except_id'];
+    private function initSalt() {
+        $framework = Framework::instance();
+        $config = $framework->get('config');
+        $this->salt = $config->get(UserModule::CONFIG_SALT);
+        if (!$this->salt) {
+            throw new FrameworkException("'".UserModule::CONFIG_SALT."' has no value in configuration.");
+        }
     }
 
     public function hash($value) {

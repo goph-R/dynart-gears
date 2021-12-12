@@ -2,14 +2,19 @@
 
 namespace Dynart\Gears\Modules\User\src\Form\Input;
 
-use Dynart\Gears\Module;
-use Dynart\Gears\Modules\User\src\UserService;
 use Dynart\Minicore\Form\Input;
 use Dynart\Minicore\Framework;
 use Dynart\Minicore\View;
 
+use Dynart\Gears\Module;
+use Dynart\Gears\Modules\User\src\AvatarService;
+use Dynart\Gears\Modules\User\src\UserService;
+
 class CurrentAvatar extends Input {
-        
+
+    /** @var AvatarService */
+    protected $avatarService;
+
     /** @var UserService */
     protected $userService;
     
@@ -24,6 +29,7 @@ class CurrentAvatar extends Input {
     public function __construct($name, $defaultValue='') {
         parent::__construct($name, $defaultValue);
         $framework = Framework::instance();
+        $this->avatarService = $framework->get('avatarService');
         $this->userService = $framework->get('userService');
         $this->view = $framework->get('view');
         //$app = $framework->get('app');
@@ -35,11 +41,11 @@ class CurrentAvatar extends Input {
         if (!$user) {
             return '';
         }
-        $url = $this->userService->getAvatarUrl($user);
+        $url = $this->avatarService->getUrl($user);
         $img = '<img src="'.$url.'" alt="Avatar">';
         $link = '';
-        if ($this->userService->hasAvatar($user)) {
-            $removeUrl = route_url('/settings/remove_avatar');
+        if ($this->avatarService->hasAvatar($user)) {
+            $removeUrl = route_url('/settings/remove-avatar');
             $icon = '<i class="fas fa-trash" style="margin-right: 0.4rem"></i>';
             $text = text('user', 'remove_avatar');
             $link = '<p style="margin-bottom: 1rem"><a id="avatar_remove_link" href="'.$removeUrl.'">'.$icon.$text.'</a></p>';

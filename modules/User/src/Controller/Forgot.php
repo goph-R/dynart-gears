@@ -23,8 +23,8 @@ class Forgot extends Controller {
         parent::__construct();
         $framework = Framework::instance();
         $this->userService = $framework->get('userService');
-        $this->forgotForm = $framework->get('userForgotForm');
-        $this->newPasswordForm = $framework->get('userNewPasswordForm');
+        $this->forgotForm = $framework->get('forgotForm');
+        $this->newPasswordForm = $framework->get('newPasswordForm');
     }
 
     public function index() {

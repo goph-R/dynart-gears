@@ -2,10 +2,11 @@
 
 namespace Dynart\Gears\Controllers;
 
+use Dynart\Gears\Modules\User\src\UserService;
 use Dynart\Gears\Views\ListView;
 
 use Dynart\Minicore\Controller;
-use Dynart\Minicore\Form;
+use Dynart\Minicore\Form\Form;
 
 // -- Don't store these here (declarations added in GearsAdminApp constructor)
 use Dynart\Minicore\Database\Table;
@@ -43,7 +44,9 @@ class Test extends Controller {
 
     public function __construct() {
         parent::__construct();
-        Framework::instance()->get('userService')->requireLogin();
+        /** @var UserService $userService */
+        $userService = Framework::instance()->get('userService');
+        $userService->requireLogin('/test');
     }
 
     public function index() {
@@ -76,12 +79,9 @@ class Test extends Controller {
 
     private function createListView() {
 
-
         $listView = new ListView('testQuery');
 
-        // $filterForm = $this->createFilterForm();
-        // $filterForm->getOptions()
-        // list view with options
+        // $options = $this->testFilterForm->getValues()
         $listView->setOptions([
             'text'      => $this->request->get('text', ''),
             'order_by'  => $this->request->get('orderBy', 'name'),

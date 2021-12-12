@@ -22,7 +22,7 @@ class UserModule extends Module {
     const CONFIG_AVATAR_MAX_FILE_SIZE = 'user.avatar_max_file_size';
     const CONFIG_AVATAR_QUALITY = 'user.avatar_quality';
 
-    const DEFAULT_AVATAR_SIZE = 512;
+    const DEFAULT_AVATAR_SIZE = 128;
     const DEFAULT_AVATAR_MAX_FILE_SIZE = 2*1024*1024; // 2MB
     const DEFAULT_AVATAR_QUALITY = 90;
 
@@ -37,32 +37,33 @@ class UserModule extends Module {
             'userQuery'           => 'Database\UserQuery',
             'userHashTable'       => 'Database\UserHashTable',
             'userHashQuery'       => 'Database\UserHashQuery',
-            'roleTable'           => 'Database\RoleTable',
-            'roleTextTable'       => 'Database\RoleTextTable',
-            'roleQuery'           => 'Database\RoleQuery',
-            'permissionTable'     => 'Database\PermissionTable',
-            'permissionTextTable' => 'Database\PermissionTextTable',
-            'permissionQuery'     => 'Database\PermissionQuery',
+            //'roleTable'           => 'Database\RoleTable',
+            //'roleTextTable'       => 'Database\RoleTextTable',
+            //'roleQuery'           => 'Database\RoleQuery',
+            //'permissionTable'     => 'Database\PermissionTable',
+            //'permissionTextTable' => 'Database\PermissionTextTable',
+            //'permissionQuery'     => 'Database\PermissionQuery',
 
-            // service
-            'userService'         => 'UserService',
+            // services
+            'userService'   => 'UserService',
+            'avatarService' => 'AvatarService',
 
             // forms
-            'userRegisterForm'    => 'Form\Register',
-            'userLoginForm'       => 'Form\Login',
-            'userForgotForm'      => 'Form\Forgot',
-            'userNewPasswordForm' => 'Form\NewPassword',
-            'userSettingsForm'    => 'Form\Settings',
-            'userAvatarForm'      => 'Form\Avatar',
+            'registerForm'     => 'Form\Register',
+            'loginForm'        => 'Form\Login',
+            'forgotForm'       => 'Form\Forgot',
+            'newPasswordForm'  => 'Form\NewPassword',
+            'userSettingsForm' => 'Form\Settings',
+            'avatarForm'       => 'Form\Avatar',
 
             // controllers
-            'userRegisterController' => 'Controller\Register',
-            'userLoginController'    => 'Controller\Login',
-            'userForgotController'   => 'Controller\Forgot',
-            'userLogoutController'   => 'Controller\Logout',
-            'userProfileController'  => 'Controller\Profile',
+            'registerController'     => 'Controller\Register',
+            'loginController'        => 'Controller\Login',
+            'forgotController'       => 'Controller\Forgot',
+            'logoutController'       => 'Controller\Logout',
+            'profileController'      => 'Controller\Profile',
             'userSettingsController' => 'Controller\Settings',
-            'userAvatarController'   => 'Controller\Avatar'
+            'avatarController'       => 'Controller\Avatar'
         ],
             self::NAMESPACE
         );
@@ -94,6 +95,12 @@ class UserModule extends Module {
         $view = $this->framework->get('view');
         $view->addFolder(':user', $this->getFolder().'/templates');
         $view->changePath(':user/login-layout', ':user/layout');
+        $userService = $this->framework->get('userService');
+        $view->set([
+            'userService' => $userService,
+            'avatarService' => $this->framework->get('avatarService'),
+            'currentUser' => $userService->getCurrentUser()
+        ]);
 
         /** @var Translation $translation */
         $translation = $this->framework->get('translation');
@@ -102,21 +109,21 @@ class UserModule extends Module {
         /** @var Router $router */
         $router = $this->framework->get('router');
         $router->add([
-            ['/register', 'userRegisterController', 'index', ['GET', 'POST']],
-            ['/register/activation', 'userRegisterController', 'activation'],
-            ['/register/activate', 'userRegisterController', 'activate'],
-            ['/register/success', 'userRegisterController', 'success'],
-            ['/login', 'userLoginController', 'index', ['GET', 'POST']],
-            ['/forgot', 'userForgotController', 'index', ['GET', 'POST']],
-            ['/forgot/sent', 'userForgotController', 'sent'],
-            ['/forgot/new', 'userForgotController', 'newPassword', ['GET', 'POST']],
-            ['/forgot/success', 'userForgotController', 'success'],
-            ['/logout', 'userLogoutController', 'index'],
-            ['/profile/?', 'userProfileController', 'index'],
-            ['/settings', 'userSettingsController', 'index', ['GET', 'POST']],
-            ['/settings/activate', 'userSettingsController', 'activate'],
-            ['/settings/avatar', 'userAvatarController', 'index', ['GET', 'POST']],
-            ['/settings/remove-avatar', 'userAvatarController', 'remove'],
+            ['/register', 'registerController', 'index', ['GET', 'POST']],
+            ['/register/activation', 'registerController', 'activation'],
+            ['/register/activate', 'registerController', 'activate'],
+            ['/register/success', 'registerController', 'success'],
+            ['/login', 'loginController', 'index', ['GET', 'POST']],
+            ['/forgot', 'forgotController', 'index', ['GET', 'POST']],
+            ['/forgot/sent', 'forgotController', 'sent'],
+            ['/forgot/new', 'forgotController', 'newPassword', ['GET', 'POST']],
+            ['/forgot/success', 'forgotController', 'success'],
+            ['/logout', 'logoutController', 'index'],
+            ['/profile/?', 'profileController', 'index'],
+            ['/user-settings', 'userSettingsController', 'index', ['GET', 'POST']],
+            ['/user-settings/activate', 'userSettingsController', 'activate'],
+            ['/user-settings/avatar', 'avatarController', 'index', ['GET', 'POST']],
+            ['/user-settings/remove-avatar', 'avatarController', 'remove'],
         ]);
     }
 

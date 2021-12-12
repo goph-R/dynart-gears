@@ -2,11 +2,11 @@
 
 namespace Dynart\Gears\Modules\User\src\Controller;
 
-use Dynart\Gears\Modules\User\src\UserService;
-
 use Dynart\Minicore\Controller;
-use Dynart\Minicore\Form\Form;
 use Dynart\Minicore\Framework;
+use Dynart\Minicore\Form\Form;
+
+use Dynart\Gears\Modules\User\src\UserService;
 
 class Register extends Controller {
 
@@ -21,9 +21,9 @@ class Register extends Controller {
         $framework = Framework::instance();
         $this->userService = $framework->get('userService');
         if ($this->userService->isRegisterDisabled()) {
-            $this->redirect();
+            $this->redirect('/');
         }
-        $this->registerForm = $framework->get('userRegisterForm');
+        $this->registerForm = $framework->get('registerForm');
     }
 
     public function index() {
@@ -38,9 +38,13 @@ class Register extends Controller {
             }
             $this->registerForm->addError(text('user', 'couldnt_send_email'));
         }
-        $this->registerForm->setValue('password', ''); // security reasons
-        $this->registerForm->setValue('password_again', ''); // security reasons
-        $this->render(':user/register', ['form' => $this->registerForm]);
+        $this->registerForm->setValues([ // security reasons
+            'password' => '',
+            'password_again' => ''
+        ]);
+        $this->render(':user/register', [
+            'form' => $this->registerForm
+        ]);
     }
 
     public function activation() {

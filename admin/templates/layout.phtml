@@ -66,9 +66,9 @@
                 <div class="navbar-item has-dropdown has-dropdown-with-icons has-divider has-user-avatar is-hoverable">
                     <a class="navbar-link is-arrowless">
                         <div class="is-user-avatar">
-                            <img src="https://avatars.dicebear.com/v2/initials/rebecca-bauch.svg" alt="Rebecca Bauch">
+                            <img src="<?= $avatarService->getUrl($currentUser) ?>" alt="<?= $userService->getFullName($currentUser) ?>">
                         </div>
-                        <div class="is-user-name"><span>Rebecca Bauch</span></div>
+                        <div class="is-user-name"><span><?= $currentUser->get('name') ?></span></div>
                         <span class="icon"><i class="fas fa-chevron-down"></i></span>
                     </a>
                     <div class="navbar-dropdown">
@@ -80,7 +80,7 @@
     </nav>
 
     <aside class="aside is-placed-left is-expanded">
-        <div class="aside-tools"></div>
+        <a class="aside-tools" href="<?= route_url('/') ?>"></a>
         <?= $this->fetch(':app/layout-menu') ?>
     </aside>
 

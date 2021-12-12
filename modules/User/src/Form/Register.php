@@ -3,6 +3,7 @@
 namespace Dynart\Gears\Modules\User\src\Form;
 
 use Dynart\Minicore\Form\Form;
+use Dynart\Minicore\Framework;
 
 class Register extends Form {
 
@@ -13,12 +14,23 @@ class Register extends Form {
             text('user', 'will_be_used_as_public')
         );
         $this->addValidator('name', 'NameExists');
-        $this->addInput('first_name', text('user', 'first_name'),
+
+        // full name
+        $first = 'first_name';
+        $last = 'last_name';
+        $translation = Framework::instance()->get('translation');
+        if ($translation->getLocale() == 'hu') {
+            $first = 'last_name';
+            $last = 'first_name';
+        }
+        $this->addInput($first, text('user', $first),
             ['Text']
         );
-        $this->addInput('last_name', text('user', 'last_name'),
+        $this->addInput($last, text('user', $last),
             ['Text']
         );
+        //
+
         $this->addInput('email', 'Email',
             ['Text'],
             text('user', 'we_will_send_an_activation')

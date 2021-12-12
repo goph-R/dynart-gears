@@ -3,6 +3,7 @@
 namespace Dynart\Gears\Modules\User\src\Form;
 
 use Dynart\Gears\Modules\User\src\Form\Input\CurrentAvatar;
+use Dynart\Gears\Modules\User\src\AvatarService;
 use Dynart\Minicore\Database\Record;
 use Dynart\Minicore\Form\Form;
 
@@ -25,16 +26,16 @@ class Avatar extends Form {
 
     }
 
-    public function init(UserService $userService, Record $user) {
+    public function init(AvatarService $avatarService, $userId) {
         $params = [
-            'size' => $userService->getAvatarSize(),
-            'max' => round($userService->getAvatarMaxFileSize() / 1024 / 1024)
+            'size' => $avatarService->getSize(),
+            'max' => round($avatarService->getMaxFileSize() / 1024 / 1024)
         ];
         $fileInput = $this->getInput('file');
         $fileInput->setDescription(text('user', 'avatar_upload_description', $params));
         /** @var CurrentAvatar $currentAvatarInput */
         $currentAvatarInput = $this->getInput('current');
-        $currentAvatarInput->setValue($user->get('id'));
+        $currentAvatarInput->setValue($userId);
     }
 
 }

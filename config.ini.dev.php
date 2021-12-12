@@ -103,7 +103,4 @@ user.register_disabled = false
 user.logged_in_url = ""
 user.logged_out_url = "/login"
 
-;google.client_id = "523991671874-infttbe09chmljms0a2adrpom6geugnc.apps.googleusercontent.com"
-;google.client_secret = "z3WfMIG7aNoJa3D56sY9-R6a"
-
 ;*/

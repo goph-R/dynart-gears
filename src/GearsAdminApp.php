@@ -32,6 +32,8 @@ class GearsAdminApp extends GearsApp {
         ]);
         $this->view->addFolder(':app', 'templates');
         $this->view->changePath(':user/login-layout', ':app/login-layout');
+        $this->view->changePath(':user/layout', ':app/layout');
     }
+
 }
 

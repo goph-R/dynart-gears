@@ -27,28 +27,25 @@ class Settings extends Controller {
     }
 
     public function index() {
-        $this->userService->requireLogin();
-        $form = $this->settingsForm;
-        $form->init($this->userService->getCurrentUser());
-        $this->processForm($form);
-        $form->setValue('old_password', '');
-        $form->setValue('password', '');
-        $form->setValue('password_again', '');
-        $this->view->set(['userService' => $this->userService]);
+        $this->userService->requireLogin('/user-settings');
+        $this->settingsForm->init($this->userService->getCurrentUser());
+        $this->processForm($this->settingsForm);
+        $this->settingsForm->setValues([
+            'old_password' => '',
+            'password' => '',
+            'password_again' => ''
+        ]);
         $this->render(':user/settings', [
-            'form' => $form,
+            'form' => $this->settingsForm,
             'active' => 'general',
-            'action' => route_url('/settings')
+            'action' => route_url('/user-settings')
         ]);
     }
-    
+
     public function activate() {
         $hash = $this->request->get('hash');
-        if (!$this->userService->isLoggedIn()) {
-            $this->redirect('/');
-        }
-        $user = $this->userService->getCurrentUser();
-        if ($this->userService->activateNewEmail($user->get('id'), $hash)) {
+        $this->userService->requireLogin('/user-settings/activate', ['hash' => $hash]);
+        if ($this->userService->activateNewEmail($this->userService->getCurrentId(), $hash)) {
             $message = $this->getMessage('info', 'email_activation_successful');
         } else {
             $message = $this->getMessage('error', 'email_activation_not_found');
@@ -61,14 +58,6 @@ class Settings extends Controller {
         if (!$form->process()) {
             return;
         }
-        $this->save($form);
-        if ($this->saveMessages) {
-            //$this->userSession->setFlash('settings_messages', $this->saveMessages);
-            $this->redirect('/settings');
-        }
-    }   
-    
-    public function save(Form $form) {
         $this->saveMessages = [];
         $user = $this->userService->getCurrentUser();
         $save = $this->saveFullName($form, $user);
@@ -77,14 +66,21 @@ class Settings extends Controller {
         if ($save) {
             $this->userService->saveCurrentUser();
         }
-    }
+        if ($this->saveMessages) {
+            //$this->userSession->setFlash('settings_messages', $this->saveMessages);
+            $this->redirect('/settings');
+        }
+    }   
     
     protected function saveFullName(Form $form, Record $user) {
         if ($form->getValue('last_name') == $user->get('last_name')
             && $form->getValue('first_name') == $user->get('first_name')) {
             return false;
         }
-        $this->userService->changeFullName($user, $form->getValue('first_name'), $form->getValue('last_name'));
+        $user->setAll([
+            'first_name' => $form->getValue('first_name'),
+            'last_name' => $form->getValue('last_name')
+        ]);
         $this->saveMessages[] = $this->getMessage('info', 'fullname_modify_success');
         return true;
     }
@@ -112,7 +108,7 @@ class Settings extends Controller {
         return true;
     }
     
-    private function getMessage($type, $text) {
+    protected function getMessage($type, $text) {
         return [
             'type' => $type,
             'text' => text('user', $text)

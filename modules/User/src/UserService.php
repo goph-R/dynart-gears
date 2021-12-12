@@ -19,6 +19,7 @@ use Dynart\Gears\Modules\User\src\Database\UserHashQuery;
 use Dynart\Gears\Modules\User\src\Database\UserHashTable;
 use Dynart\Gears\Modules\User\src\Database\UserQuery;
 use Dynart\Gears\Modules\User\src\Database\UserTable;
+use Dynart\Minicore\Translation;
 
 class UserService {
 
@@ -44,6 +45,9 @@ class UserService {
     /** @var Router */
     protected $router;
 
+    /** @var Translation */
+    protected $translation;
+
 
     // DB related
     /** @var UserTable */
@@ -53,10 +57,10 @@ class UserService {
     protected $userQuery;
 
     /** @var RoleQuery */
-    protected $roleQuery;
+    //protected $roleQuery;
 
     /** @var PermissionQuery */
-    protected $permissionQuery;
+    //protected $permissionQuery;
 
     /** @var UserHashTable */
     protected $userHashTable;
@@ -82,13 +86,14 @@ class UserService {
         $this->mailer = $framework->get('mailer');
         $this->request = $framework->get('request');
         $this->response = $framework->get('response');
+        $this->translation = $framework->get('translation');
 
         $this->userQuery = $framework->get('userQuery');
         $this->userTable = $framework->get('userTable');
-        $this->roleQuery = $framework->get('roleQuery');
-        $this->permissionQuery = $framework->get('permissionQuery');
         $this->userHashQuery = $framework->get('userHashQuery');
         $this->userHashTable = $framework->get('userHashTable');
+        //$this->roleQuery = $framework->get('roleQuery');
+        //$this->permissionQuery = $framework->get('permissionQuery');
 
         $this->app = $framework->get('app');
 
@@ -96,18 +101,6 @@ class UserService {
         $this->anonymousUser = $framework->create(['\Dynart\Minicore\Database\Record', $anonymousData]);
 
         $this->rememberLogin();
-    }
-    
-    public function getAvatarSize() {
-        return $this->config->get(UserModule::CONFIG_AVATAR_SIZE, UserModule::DEFAULT_AVATAR_SIZE);
-    }
-    
-    public function getAvatarMaxFileSize() {
-        return $this->config->get(UserModule::CONFIG_AVATAR_MAX_FILE_SIZE, UserModule::DEFAULT_AVATAR_MAX_FILE_SIZE);
-    }
-    
-    public function getAvatarQuality() {
-        return $this->config->get(UserModule::CONFIG_AVATAR_QUALITY, UserModule::DEFAULT_AVATAR_QUALITY);
     }
     
     public function isRegisterDisabled() {
@@ -128,31 +121,6 @@ class UserService {
 
     public function findById($id) {
         return $this->userQuery->findById($id);
-    }
-
-    private function findByHash(string $name, string $hash, bool $active=true) {
-        $hashRecord = $this->userHashQuery->findOne(['user_id'], [
-            'name' => $name,
-            'hash' => $hash
-        ]);
-        if (!$hashRecord) {
-            return null;
-        }
-        $options = ['id' => $hashRecord->get('user_id')];
-        if ($active) {
-            $options = ['active' => 1];
-        }
-        return $this->userQuery->findOne(null, $options);
-    }
-
-    private function getClientHash() {
-        return md5($this->request->getIp().$this->request->getServer('HTTP_USER_AGENT'));
-    }
-
-    private function redirect(string $to) {
-        /** @var GearsApp $app */
-        $app = Framework::instance()->get('app');
-        $app->redirect($to);
     }
 
     public function isLoggedIn() {
@@ -176,12 +144,11 @@ class UserService {
         $this->doLogin($user);
     }
     
-    public function requireLogin() {
+    public function requireLogin(string $afterLoginRoute='', array $params=[]) {
         if ($this->isLoggedIn()) {
             return;
         }
-        //$url = $this->router->getBaseUrl().$this->request->getUri();
-        //$this->setLoginRedirectUrl($url);
+        $this->setAfterLoginRoute($afterLoginRoute, $params);
         $this->redirect($this->getLoggedOutUrl());
     }
 
@@ -198,7 +165,9 @@ class UserService {
         $app->error($code);
     }
     */
-    
+
+
+
     public function login($email, $password, $remember) {
         $user = $this->userQuery->findOne(null, [
             'email' => $email,
@@ -214,22 +183,6 @@ class UserService {
         }
         $this->doLogin($user);
         return true;
-    }
-
-    /*
-    public function getLoginRedirectUrl() {
-        return $this->session->get('login_redirect_url');
-    }
-    
-    public function setLoginRedirectUrl($value) {
-        $this->session->set('login_redirect_url', $value);
-    }
-    */
-
-    protected function doLogin(Record $user) {
-        $user->set('last_login', date('Y-m-d H:i:s'));
-        $this->userTable->save($user);
-        $this->setLoggedIn($user->get('id'));
     }
 
     public function getCurrentId() {
@@ -257,15 +210,20 @@ class UserService {
     }
 
     public function register($values) {
+
+        // TODO: transaction
         // save the user data
-        $fields = ['email', 'first_name', 'last_name', 'name']; // must be extendable by modules! save event maybe?
+        // must be extendable by modules! register event maybe?
+        $fields = ['email', 'first_name', 'last_name', 'name'];
         $user = $this->userTable->create();
         $user->setAll($values, $fields);
         $user->set('password', $this->hash($values['password']));
         $this->userTable->save($user);
+
         // create the activation hash
         $hash = $this->hash(time());
         $this->userHashTable->add($user->get('id'), 'activation', $hash);
+        // END TODO
         return $hash;
     }
 
@@ -320,11 +278,6 @@ class UserService {
     public function changePassword(Record $user, $password) {
         $user->set('password', $this->hash($password));
     }
-    
-    public function changeFullName(Record $user, $firstName, $lastName) {
-        $user->set('first_name', $firstName);
-        $user->set('last_name', $lastName);
-    }
 
     public function changeEmail(Record $user, $email) {
         $hash = $this->hash($email);
@@ -349,7 +302,7 @@ class UserService {
             return false;
         }
         $user->set('email', $user->get('new_email'));
-        $user->set('new_email', null);
+        $user->set('new_email', '');
         // TODO: transaction
         $this->userTable->save($user);
         $this->userHashTable->deleteByUserIdAndName($user->get('id'), 'new_email');
@@ -362,73 +315,56 @@ class UserService {
         $this->userTable->save($user);
     }
 
-    public function changeAvatar(Record $user, $srcPath) {
-        $this->removeAvatar($user);
-        do {
-            try {
-                $user->set('avatar', bin2hex(random_bytes(16)));
-            } catch (\Exception $ignore) {}
-        } while ($this->hasAvatar($user));
-        $path = $this->getAvatarPath($user);
-        $dir = dirname($path);
-        if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
-        }
-        $srcSize = getimagesize($srcPath);
-        $src = imagecreatefromjpeg($srcPath);
-        $srcX = 0;
-        $srcY = 0;
-        $srcW = $srcSize[0];
-        $srcH = $srcSize[1];
-        $destSize = $this->getAvatarSize();
-        $dest = imagecreatetruecolor($destSize, $destSize);
-        if ($srcW > $srcH) {
-            $srcX = ($srcW - $srcH) / 2;
-            $srcW = $srcH;
+    public function getFullName(Record $user) {
+        $locale = $this->translation->getLocale();
+        if ($locale == 'hu') {
+            return $user->get('last_name').' '.$user->get('first_name');
         } else {
-            $srcY = ($srcH - $srcW) / 2;
-            $srcH = $srcW;
+            return $user->get('first_name').' '.$user->get('last_name');
         }
-        imagecopyresampled($dest, $src, 0, 0, $srcX, $srcY, $destSize, $destSize, $srcW, $srcH);
-        imagejpeg($dest, $path, $this->getAvatarQuality());
-        imagedestroy($dest);
-        imagedestroy($src);
     }
-    
-    public function removeAvatar(Record $user) {
-        if (!$this->hasAvatar($user)) {
-            return;
+
+    public function getAfterLoginRoute() {
+        return $this->session->get('after_login_route');
+    }
+
+    public function clearAfterLoginRoute() {
+        $this->setAfterLoginRoute('', []);
+    }
+
+    protected function setAfterLoginRoute(string $route, array $params) {
+        $this->session->set('after_login_route', [$route, $params]);
+    }
+
+    protected function doLogin(Record $user) {
+        $user->set('last_login', date('Y-m-d H:i:s'));
+        $this->userTable->save($user);
+        $this->setLoggedIn($user->get('id'));
+    }
+
+    protected function findByHash(string $name, string $hash, bool $active=true) {
+        $hashRecord = $this->userHashQuery->findOne(['user_id'], [
+            'name' => $name,
+            'hash' => $hash
+        ]);
+        if (!$hashRecord) {
+            return null;
         }
-        unlink($this->getAvatarPath($user));
-    }
-
-    public function getAvatarPath(Record $user) {
-        $avatar = $user->get('avatar');
-        $prefix = $this->getAvatarPrefix($avatar);
-        return $this->app->getMediaPath('/avatar/'.$prefix.$avatar.'.jpg');
-    }
-
-    private function getAvatarPrefix($avatar) {
-        $prefix = '';
-        if ($avatar) {
-            $prefix = $avatar[0].$avatar[1].'/'.$avatar[2].$avatar[3].'/';
+        $options = ['id' => $hashRecord->get('user_id')];
+        if ($active) {
+            $options = ['active' => 1];
         }
-        return $prefix;
+        return $this->userQuery->findOne(null, $options);
     }
 
-    public function hasAvatar(Record $user) {
-        return file_exists($this->getAvatarPath($user));
+    protected function getClientHash() {
+        return md5($this->request->getIp().$this->request->getServer('HTTP_USER_AGENT'));
     }
 
-    public function getAvatarUrl(Record $user) {
-        if (!$this->hasAvatar($user)) {
-            return $this->app->getModuleUrl('User', '/static/default-avatar.png');
-        }
-
-        $avatar = $user->get('avatar');
-        $prefix = $this->getAvatarPrefix($avatar);
-        return $this->app->getMediaUrl('/avatar/'.$prefix.$avatar.'.jpg');
+    protected function redirect(string $to) {
+        /** @var GearsApp $app */
+        $app = Framework::instance()->get('app');
+        $app->redirect($to);
     }
-
 
 }
